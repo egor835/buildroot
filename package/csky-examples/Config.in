@@ -6,7 +6,7 @@ config BR2_PACKAGE_CSKY_EXAMPLES
 	help
 	  Linux examples for C-SKY from the www.c-sky.com
 
-	  https://github.com/c-sky/linux-sdk-examples
+	  https://github.com/egor835/linux-sdk-examples
 
 if BR2_PACKAGE_CSKY_EXAMPLES
 
