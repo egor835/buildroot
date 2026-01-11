@@ -1,3 +1,29 @@
+# Buildroot for csky architecture (gx6605s)
+
+## how to build:
+
+1. Get the docker container
+```
+docker pull maohan001/ubuntu-buildroot
+```
+2. Get into the docker container
+```
+docker run -i -t maohan001/ubuntu-buildroot:latest /bin/bash 
+```
+3. Clone this repo
+```
+cd ~
+git clone https://github.com/egor835/buildroot
+cd buildroot/
+```
+4. Build
+```
+make csky_610_gx6605s_4.9_uclibc_br_defconfig
+make
+```
+5. Somehow pull usb.img from container and *dd* it to usb
+## Original readme:
+
 C-SKY Buildroot 开发流程：
 
  - master 分支, 每周合并一次, 周一为merge window. (周一发出的 pull-request 会
