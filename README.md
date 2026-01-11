@@ -16,12 +16,23 @@ cd ~
 git clone https://github.com/egor835/buildroot
 cd buildroot/
 ```
-4. Build
+4. Configure
 ```
+apt update && apt install ncurses-dev
 make csky_610_gx6605s_4.9_uclibc_br_defconfig
+make menuconfig
+```
+5. Build
+```
 make
 ```
-5. Somehow pull usb.img from container and *dd* it to usb
+6. Somehow pull output/images/usb.img.xz from container, unpack and *dd* it to usb
+
+## Useful links:
+https://dev.to/maple/build-and-modify-linux-system-image-for-c-sky-based-gx6605s-board-3i7j 
+https://c-sky.github.io/docs/gx6605s.html
+
+   
 ## Original readme:
 
 C-SKY Buildroot 开发流程：
