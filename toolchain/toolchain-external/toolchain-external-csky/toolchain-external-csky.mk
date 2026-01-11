@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-TOOLCHAIN_EXTERNAL_CSKY_SITE = https://github.com/c-sky/tools/raw/master
+TOOLCHAIN_EXTERNAL_CSKY_SITE = https://github.com/egor835/c-sky_tools/raw/master
 
 ifeq ($(BR2_TOOLCHAIN_EXTERNAL_CSKY_GLIBC),y)
 ifeq ($(BR2_ck610),y)
