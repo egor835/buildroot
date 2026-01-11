@@ -1,7 +1,7 @@
 #!/bin/sh
 
 JDK_VERSION=jdk1.5.0_22
-JDK_SITE=https://github.com/c-sky/tools/raw/master/dl
+JDK_SITE=https://github.com/egor835/c-sky_tools/raw/master/dl
 JDK_SHA256_SUM="d9bd5d516c4cb0120b921f82cf6c56f5c00567e0b8def5a2d6907d609ee4be3c"
 JDK_DOWNLOAD_DIR=dl
 JDK_INSTALL_DIR=output/host/jdk
