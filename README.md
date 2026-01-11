@@ -6,9 +6,10 @@
 ```
 docker pull maohan001/ubuntu-buildroot
 ```
-2. Get into the docker container
+2. Get into the docker container and install ncurses
 ```
-docker run -i -t maohan001/ubuntu-buildroot:latest /bin/bash 
+docker run -i -t maohan001/ubuntu-buildroot:latest /bin/bash
+apt update && apt install ncurses-dev
 ```
 3. Clone this repo
 ```
@@ -17,9 +18,17 @@ git clone https://github.com/egor835/buildroot
 cd buildroot/
 ```
 4. Configure
+   
+If you want uart console:
 ```
-apt update && apt install ncurses-dev
 make csky_610_gx6605s_4.9_uclibc_br_defconfig
+```
+or if you prefer hdmi:
+```
+make csky_610_gx6605sfb_4.9_uclibc_br_defconfig
+```
+then
+```
 make menuconfig
 ```
 5. Build
