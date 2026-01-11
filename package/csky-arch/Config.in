@@ -9,4 +9,4 @@ config BR2_PACKAGE_CSKY_ARCH
 
 	  This is only the download helper for the kernel patch.
 
-	  https://github.com/c-sky/csky-linux
+	  https://github.com/egor835/csky-linux
