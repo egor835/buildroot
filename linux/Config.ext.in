@@ -136,7 +136,7 @@ config BR2_LINUX_KERNEL_EXT_CSKY_ARCH
 	help
 	  Linux arch for C-SKY from the www.c-sky.com
 
-	  https://github.com/c-sky/csky-linux
+	  https://github.com/egor835/csky-linux
 
 if BR2_LINUX_KERNEL_EXT_CSKY_ARCH
 
@@ -154,7 +154,7 @@ config BR2_LINUX_KERNEL_EXT_CSKY_ADDONS
 	help
 	  Linux addons for C-SKY from the www.c-sky.com
 
-	  default url: https://github.com/c-sky/linux-csky-addons
+	  default url: https://github.com/egor835/linux-csky-addons
 
 if BR2_LINUX_KERNEL_EXT_CSKY_ADDONS
 
@@ -167,7 +167,7 @@ config BR2_LINUX_KERNEL_EXT_CSKY_ADDONS_USE_VENDOR_REPO
 	help
 	  Linux addons for C-SKY from the www.c-sky.com
 
-	  change url: https://github.com/c-sky/csky-addons
+	  change url: https://github.com/egor835/linux-csky-addons
 
 endif # csky addons
 endmenu
