@@ -26,6 +26,12 @@ MESA3D_DEPENDENCIES = \
 # Disable assembly usage.
 MESA3D_CONF_OPTS = --disable-asm
 
+# Disable TLS
+MESA3D_CONF_OPTS += --disable-elf-tls \
+                    --disable-glx-tls 
+#                    --disable-shared-glapi \
+#                    --disable-asm
+
 # Disable static, otherwise configure will fail with: "Cannot enable both static
 # and shared."
 ifeq ($(BR2_SHARED_STATIC_LIBS),y)
