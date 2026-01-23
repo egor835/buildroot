@@ -6,7 +6,7 @@
 ################################################################################
 
 GREENLET_VERSION = 2e2cab9e05321b187188498888bb0dfaa020c417
-GREENLET_SITE = $(call github,c-sky,greenlet,$(GREENLET_VERSION))
+GREENLET_SITE = $(call github,egor835,csky-greenlet,$(GREENLET_VERSION))
 GREENLET_DEPENDENCIES += python
 
 define GREENLET_CONFIGURE_CMDS
