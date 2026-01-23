@@ -22,7 +22,7 @@ ifeq ($(BR2_CSKY_GERRIT_REPO),y)
 UBOOT_SITE = $(call qstrip,$(BR2_TARGET_UBOOT_CUSTOM_REPO_URL))
 UBOOT_SITE_METHOD = git
 else
-UBOOT_SITE = $(call github,c-sky,csky_uboot,$(BR2_TARGET_UBOOT_CUSTOM_REPO_VERSION))
+UBOOT_SITE = $(call github,egor835,csky_uboot,$(BR2_TARGET_UBOOT_CUSTOM_REPO_VERSION))
 endif
 else ifeq ($(UBOOT_VERSION),custom)
 # Handle custom U-Boot tarballs as specified by the configuration
