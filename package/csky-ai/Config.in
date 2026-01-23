@@ -9,9 +9,7 @@ config BR2_PACKAGE_CSKY_AI
 		   (BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE = "board/csky/anole_ck810/linux.config")
 	default n
 	help
-	  C-SKY AI (Artificial Intelligence) related package from www.c-sky.com
-
-	  https://github.com/c-sky/linux-ai
+	  Repo is dead, this package will not compile
 
 if BR2_PACKAGE_CSKY_AI
 config BR2_PACKAGE_CSKY_AI_VERSION
