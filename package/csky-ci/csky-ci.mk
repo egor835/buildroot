@@ -5,7 +5,7 @@
 ##############################################################################
 
 CSKY_CI_VERSION = 68166bc37221914579f60947d39ac79f0c044669
-CSKY_CI_SITE = $(call github,c-sky,csky-ci,$(CSKY_CI_VERSION))
+CSKY_CI_SITE = $(call github,egor835,csky-ci,$(CSKY_CI_VERSION))
 
 define CSKY_CI_CONFIGURE_CMDS
 echo CONFIG_CPU_CK610=$(BR2_ck610) > $(@D)/config
