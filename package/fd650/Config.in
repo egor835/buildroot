@@ -1,0 +1,5 @@
+config BR2_PACKAGE_FD650
+	bool "FD650 input driver"
+	help
+	  Input driver for FD650 4-button panel (shamelessly vibecoded)
+
