@@ -33,7 +33,7 @@ ifeq ($(BR2_CSKY_GERRIT_REPO),y)
 BINUTILS_SITE = ssh://${GITUSER}@192.168.0.78:29418/tools/binutils-gdb
 BINUTILS_SITE_METHOD = git
 else
-BINUTILS_SITE = $(call github,c-sky,binutils-gdb,$(BINUTILS_VERSION))
+BINUTILS_SITE = $(call github,egor835,csky-binutils-gdb,$(BINUTILS_VERSION))
 endif
 BINUTILS_SOURCE = binutils-$(BINUTILS_VERSION).tar.gz
 BINUTILS_FROM_GIT = y
