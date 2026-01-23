@@ -19,7 +19,7 @@ ifeq ($(BR2_CSKY_GERRIT_REPO),y)
 GLIBC_SITE = ssh://${GITUSER}@192.168.0.78:29418/tools/glibc
 GLIBC_SITE_METHOD = git
 else
-GLIBC_SITE = $(call github,c-sky,glibc,$(GLIBC_VERSION))
+GLIBC_SITE = $(call github,egor835,csky-glibc,$(GLIBC_VERSION))
 endif
 else
 # Generate version string using:
