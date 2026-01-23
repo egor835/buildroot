@@ -14,7 +14,7 @@ ifeq ($(BR2_CSKY_GERRIT_REPO),y)
 CSKY_EXAMPLES_SITE = ssh://${GITUSER}@192.168.0.78:29418/test/linux_driver
 CSKY_EXAMPLES_SITE_METHOD = git
 else
-CSKY_EXAMPLES_SITE = $(call github,c-sky,linux-sdk-examples,$(CSKY_EXAMPLES_VERSION))
+CSKY_EXAMPLES_SITE = $(call github,egor835,linux-sdk-examples,$(CSKY_EXAMPLES_VERSION))
 endif
 
 ifeq ($(BR2_PACKAGE_FFMPEG),y)
