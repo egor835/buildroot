@@ -59,7 +59,7 @@ ifeq ($(BR2_CSKY_GERRIT_REPO),y)
 GDB_SITE = ssh://${GITUSER}@192.168.0.78:29418/tools/binutils-gdb
 GDB_SITE_METHOD = git
 else
-GDB_SITE = $(call github,c-sky,binutils-gdb,$(GDB_VERSION))
+GDB_SITE = $(call github,egor835,csky-binutils-gdb,$(GDB_VERSION))
 endif
 GDB_SOURCE = gdb-$(GDB_VERSION).tar.gz
 GDB_FROM_GIT = y
