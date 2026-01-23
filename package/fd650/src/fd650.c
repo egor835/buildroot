@@ -108,35 +108,35 @@ static void fd650_poll(struct work_struct *work)
 		//pr_info("fd650 raw keys: 0x%02X\n", cur);
 		switch (cur) {
         	    case 0x77:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 116);
-                	input_report_key(fd->input, KEY_POWER, 1);
-	                break;
-        	    case 0x5F:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 139);
-                	input_report_key(fd->input, KEY_MENU, 1);
-	                break;
-        	    case 0x4F:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 115);
-                	input_report_key(fd->input, KEY_VOLUMEUP, 1);
-                	break;
-	            case 0x47:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 114);
-        	        input_report_key(fd->input, KEY_VOLUMEDOWN, 1);
-	                break;
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0x10081);
+                        input_report_key(fd->input, KEY_POWER, 1);
+                        break;
+                    case 0x5F:
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc0040);
+                        input_report_key(fd->input, KEY_MENU, 1);
+                        break;
+                    case 0x4F:
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00e9);
+                        input_report_key(fd->input, KEY_VOLUMEUP, 1); 
+                        break;
+                    case 0x47:
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00ea);
+                        input_report_key(fd->input, KEY_VOLUMEDOWN, 1); 
+                        break;
                     case 0x37:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 116);
-                        input_report_key(fd->input, KEY_POWER, 0);
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0x10081);
+                        input_report_key(fd->input, KEY_POWER, 0);  
                         break;
                     case 0x1F:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 139);
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc0040);
                         input_report_key(fd->input, KEY_MENU, 0);
                         break;
                     case 0x0F:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 115);
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00e9);
                         input_report_key(fd->input, KEY_VOLUMEUP, 0);
                         break;
                     case 0x07:
-			input_event(fd->input, EV_MSC, MSC_SCAN, 114);
+                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00ea);
                         input_report_key(fd->input, KEY_VOLUMEDOWN, 0);
                         break;
         	}
