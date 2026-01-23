@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-CSKY_ADDONS_VERSION = 5c6e7476aac7701c15458c01066b04fecbcf0d2f
+CSKY_ADDONS_VERSION = e2b794a06cab419c4ed1a3657cc0c5e72adcac3a
 
 ifneq ($(BR2_LINUX_KERNEL_EXT_CSKY_ADDONS_VERSION), "")
 CSKY_ADDONS_VERSION = $(BR2_LINUX_KERNEL_EXT_CSKY_ADDONS_VERSION)
@@ -19,9 +19,9 @@ endif
 CSKY_ADDONS_SITE_METHOD = git
 else
 ifeq ($(BR2_LINUX_KERNEL_EXT_CSKY_ADDONS_USE_VENDOR_REPO),y)
-CSKY_ADDONS_SITE = $(call github,c-sky,addons-linux,$(CSKY_ADDONS_VERSION))
+CSKY_ADDONS_SITE = $(call github,egor835,csky-vendor-addons,$(CSKY_ADDONS_VERSION))
 else
-CSKY_ADDONS_SITE = $(call github,c-sky,linux-csky-addons,$(CSKY_ADDONS_VERSION))
+CSKY_ADDONS_SITE = $(call github,egor835,linux-csky-addons,$(CSKY_ADDONS_VERSION))
 endif
 endif
 
