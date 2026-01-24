@@ -4,23 +4,21 @@
 #include <linux/delay.h>
 #include <linux/gpio/consumer.h>
 #include <linux/of_device.h>
+#include <linux/miscdevice.h>
+#include <linux/uaccess.h>
 
 #define POLL_MS 20
 
 struct fd650 {
 	struct input_dev *input;
 	struct delayed_work work;
-
 	struct gpio_desc *clk;
 	struct gpio_desc *dat;
-
 	u8 prev_keys;
-};
 
-static inline int fd650_dat_read(struct fd650 *fd)
-{
-	return gpiod_get_value(fd->dat);
-}
+	struct miscdevice miscdev;
+	struct mutex lock;
+};
 
 static inline void fd650_delay(void)
 {
@@ -75,7 +73,7 @@ static u8 fd650_read_byte(struct fd650 *fd)
 	for (i = 0; i < 8; i++) {
 		fd650_clk(fd, 1);
 		v <<= 1;
-		if (fd650_dat_read(fd))
+		if (gpiod_get_value(fd->dat))
 			v |= 1;
 		fd650_clk(fd, 0);
 	}
@@ -96,6 +94,57 @@ static u8 fd650_read_keys(struct fd650 *fd)
 	return data;
 }
 
+static int fd650_open(struct inode *inode, struct file *f)
+{
+	struct fd650 *fd =
+		container_of(f->private_data,
+		             struct fd650,
+		             miscdev);
+
+	f->private_data = fd;
+	return 0;
+}
+
+static void fd650_update_display(struct fd650 *fd, u8 *digits)
+{
+	int i;
+
+	fd650_start(fd);
+	fd650_write_byte(fd, 0x48); //init
+	fd650_write_byte(fd, 0x71);
+	fd650_stop(fd);
+
+	for (i = 0; i < 4; i++){
+		//pr_info("fd650 disp data: 0x%02X\n", digits[i]);
+
+		fd650_start(fd);
+		fd650_write_byte(fd, 0x68+i*2);
+		fd650_write_byte(fd, digits[i]);
+		fd650_stop(fd);
+	}
+}
+
+static ssize_t fd650_write(struct file *f,
+                           const char __user *buf,
+                           size_t len,
+                           loff_t *ppos)
+{
+	struct fd650 *fd = f->private_data;
+	u8 digits[4] = {0};
+	size_t n;
+
+	n = min(len, (size_t)4);
+	if (copy_from_user(digits, buf, n))
+		return -EFAULT;
+
+	mutex_lock(&fd->lock);
+
+	fd650_update_display(fd, digits);
+	mutex_unlock(&fd->lock);
+
+	return len;
+}
+
 static void fd650_poll(struct work_struct *work)
 {
 	struct fd650 *fd =
@@ -108,36 +157,36 @@ static void fd650_poll(struct work_struct *work)
 		//pr_info("fd650 raw keys: 0x%02X\n", cur);
 		switch (cur) {
         	    case 0x77:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0x10081);
-                        input_report_key(fd->input, KEY_POWER, 1);
-                        break;
-                    case 0x5F:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc0040);
-                        input_report_key(fd->input, KEY_MENU, 1);
-                        break;
-                    case 0x4F:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00e9);
-                        input_report_key(fd->input, KEY_VOLUMEUP, 1); 
-                        break;
-                    case 0x47:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00ea);
-                        input_report_key(fd->input, KEY_VOLUMEDOWN, 1); 
-                        break;
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0x10081);
+                	input_report_key(fd->input, KEY_POWER, 1);
+	                break;
+        	    case 0x5F:
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0xc0040);
+                	input_report_key(fd->input, KEY_MENU, 1);
+	                break;
+        	    case 0x4F:
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00ea);
+                	input_report_key(fd->input, KEY_VOLUMEDOWN, 1);
+                	break;
+	            case 0x47:
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00e9);
+        	        input_report_key(fd->input, KEY_VOLUMEUP, 1);
+	                break;
                     case 0x37:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0x10081);
-                        input_report_key(fd->input, KEY_POWER, 0);  
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0x10081);
+                        input_report_key(fd->input, KEY_POWER, 0);
                         break;
                     case 0x1F:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc0040);
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0xc0040);
                         input_report_key(fd->input, KEY_MENU, 0);
                         break;
                     case 0x0F:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00e9);
-                        input_report_key(fd->input, KEY_VOLUMEUP, 0);
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00ea);
+                        input_report_key(fd->input, KEY_VOLUMEDOWN, 0);
                         break;
                     case 0x07:
-                        input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00ea);
-                        input_report_key(fd->input, KEY_VOLUMEDOWN, 0);
+			input_event(fd->input, EV_MSC, MSC_SCAN, 0xc00e9);
+                        input_report_key(fd->input, KEY_VOLUMEUP, 0);
                         break;
         	}
 		input_sync(fd->input);
@@ -152,6 +201,12 @@ static const struct of_device_id fd650_of_match[] = {
 	{ }
 };
 MODULE_DEVICE_TABLE(of, fd650_of_match);
+
+static const struct file_operations fd650_fops = {
+	.owner = THIS_MODULE,
+	.open  = fd650_open,
+	.write = fd650_write,
+};
 
 static int fd650_probe(struct platform_device *pdev)
 {
@@ -197,17 +252,27 @@ static int fd650_probe(struct platform_device *pdev)
 
 	platform_set_drvdata(pdev, fd);
 
+	mutex_init(&fd->lock);
+
+	fd->miscdev.minor = MISC_DYNAMIC_MINOR;
+	fd->miscdev.name  = "fd650";
+	fd->miscdev.fops  = &fd650_fops;
+
+	err = misc_register(&fd->miscdev);
+	if (err)
+		return err;
+
 	INIT_DELAYED_WORK(&fd->work, fd650_poll);
 	schedule_delayed_work(&fd->work, msecs_to_jiffies(POLL_MS));
 
-	dev_info(dev, "fd650 input driver probed\n");
+	dev_info(dev, "fd650 driver probed\n");
 	return 0;
 }
 
 static int fd650_remove(struct platform_device *pdev)
 {
 	struct fd650 *fd = platform_get_drvdata(pdev);
-
+	misc_deregister(&fd->miscdev);
 	cancel_delayed_work_sync(&fd->work);
 	return 0;
 }
