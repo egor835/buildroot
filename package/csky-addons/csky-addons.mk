@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-CSKY_ADDONS_VERSION = e2b794a06cab419c4ed1a3657cc0c5e72adcac3a
+CSKY_ADDONS_VERSION = a0dfcbb48c82bcaa8e601229d6c5f468a5f0dd75
 
 ifneq ($(BR2_LINUX_KERNEL_EXT_CSKY_ADDONS_VERSION), "")
 CSKY_ADDONS_VERSION = $(BR2_LINUX_KERNEL_EXT_CSKY_ADDONS_VERSION)
