@@ -14,7 +14,8 @@ apt update && apt install ncurses-dev openjdk-8-jdk
 3. Clone this repo
 ```
 cd ~
-git clone https://github.com/egor835/buildroot
+git clone https://github.com/egor835/gx6605s_ultimate_linux
+mv gx6605s_ultimate_linux buildroot
 cd buildroot/
 ```
 4. Configure
