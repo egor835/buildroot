@@ -9,7 +9,7 @@ docker pull maohan001/ubuntu-buildroot
 2. Get into the docker container and install ncurses
 ```
 docker run -i -t maohan001/ubuntu-buildroot:latest /bin/bash
-apt update && apt install ncurses-dev
+apt update && apt install ncurses-dev openjdk-8-jdk
 ```
 3. Clone this repo
 ```
